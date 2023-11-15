@@ -15,7 +15,7 @@ typeof(data$price)
 data <- unique(data);
 
 clean_data <- na.omit(data)
-dim(clean_data)
+dim(clean_data);
 
 
 

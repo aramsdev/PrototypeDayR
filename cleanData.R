@@ -290,3 +290,25 @@ plot(residuals, ylab = "Residuos", main = "Gráfico de Residuos")
 
 print(paste("MAE con nuevas variables:", mae_con_nuevas_variables))
 print(paste("MSE con nuevas variables:", mse_con_nuevas_variables))
+
+measures <- function(predictions, y_test) {
+  MAE <- round(mae(predictions, y_test), 3)
+  MSE <- round(mse(predictions, y_test), 3)
+  RMSE <- round(sqrt(mse(predictions, y_test)), 3)
+  
+  cat(paste("MAE:", MAE, ", MSE:", MSE, ", RMSE:", RMSE, "\n"))
+  
+  # Crear gráfico de densidad
+  ggplot() +
+    geom_density(aes(x = predictions), fill = "blue", alpha = 0.5, label = "Predicted") +
+    geom_density(aes(x = y_test), fill = "orange", alpha = 0.5, label = "Actual") +
+    labs(title = "Distribución de Predicciones y Valores Reales",
+         x = "Valor",
+         y = "Densidad") +
+    theme_minimal() +
+    theme(legend.position = "top") +
+    scale_fill_manual(values = c("blue", "orange")) +
+    geom_vline(xintercept = c(mean(predictions), mean(y_test)), linetype = "dashed", color = c("blue", "orange"), label = c("Pred. Mean", "Actual Mean"))
+}
+
+measures(predictions_con_nuevas_variables, test_data$price)
